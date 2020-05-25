@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot name="iiwa14" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find iiwa_description)/urdf/materials.xacro" />
+  <!--Import the lbr iiwa macro -->
+  <xacro:include filename="$(find iiwa_description)/urdf/iiwa14_uuvX.xacro"/> 
+  
+  <xacro:arg name="hardware_interface" default="PositionJointInterface"/>
+  <xacro:arg name="robot_name" default="iiwa"/>
+  <xacro:arg name="origin_xyz" default="0 0 0"/>
+  <xacro:arg name="origin_rpy" default="0 0 0"/>
+  <xacro:arg name="tool_l"     default="0.28"/>
+  
+  <xacro:arg name="debug" default="0"/>
+  <xacro:arg name="namespace" default="rexrov2"/>
+  <xacro:arg name="use_simplified_mesh" default="false"/>
+  <xacro:arg name="inertial_reference_frame" default="world"/>
+
+  <!-- Fix to world just for testing -->
+  <link name="world"/> 
+  
+ <!-- or free via parent="iiwa_base_link"> -->
+  <xacro:iiwa14 hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="world" tool_l="$(arg tool_l)"> 
+    <origin xyz="$(arg origin_xyz)" rpy="$(arg origin_rpy)" />
+  </xacro:iiwa14>
+
+  <!-- camera -->
+ <gazebo reference="default"> 
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+	<pose>4 -5.376610 2 0.000000 0.275643 2.356190</pose>
+	 <view_controller>orbit</view_controller> 
+      <!--   <horizontal_fov>1.3962634</horizontal_fov>  -->
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>iiwa/camera1</cameraName>
+        <imageTopicName>/iiwa/camera1/image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>iiwa_link_7</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+ </gazebo>
+
+
+</robot>

@@ -1,0 +1,100 @@
+<!-- Spawns the RexROV 2 vehicle in the simulation -->
+<launch>
+  <arg name="debug" default="0" doc="Starts the Gazebo plugins in debug mode for more verbose output"/>
+
+  <arg name="x" default="0" doc="X coordinate of the vehicle's initial position (in ENU)"/>
+  <arg name="y" default="0" doc="Y coordinate of the vehicle's initial position (in ENU)"/>    
+  <arg name="z" default="-0.8" doc="Z coordinate of the vehicle's initial position (in ENU)"/>
+  <arg name="roll" default="0.0" doc="Roll angle of the vehicle's initial orientation"/>
+  <arg name="pitch" default="0.0" doc="Pitch angle of the vehicle's initial orientation"/>
+  <arg name="yaw" default="0.0" doc="Yaw angle of the vehicle's initial orientation"/>
+
+  <arg name="use_geodetic" default="false" doc="Spawn the vehicle using geodetic instead of Cartesian coordinates"/>
+  <arg name="latitude" default="0" doc="Latitude for the vehicle's initial position in degrees"/>
+  <arg name="longitude" default="0" doc="Longitude for the vehicle's initial position in degrees"/>
+  <arg name="depth" default="0" doc="Depth of the vehicle's initial position with respect to the water surface in meters"/>
+
+  <arg name="latitude_ref" default="0" doc="Latitude of the origin in degrees"/>
+  <arg name="longitude_ref" default="0" doc="Longitude of the origin in degrees"/>
+  <arg name="altitude_ref" default="0" doc="Altitude of the origin in meters"/>
+  <arg name="iiwa" default="true" doc="Add kuka robot arm to robot"/>
+  <arg name="mode" default="iiwa14" doc="Vehicle's build configuration mode"/>
+  <arg name="namespace" default="rexrov2" doc="Namespace to spawn the vehicle"/>
+  <arg name="use_simplified_mesh" default="false" doc="Use simplified geometries instead of the mesh"/>
+  <arg name="use_ned_frame" default="false" doc="Set the inertial reference to NED (North-East-Down) convention instead of Gazebo's default ENU (East-North-Up)"/>
+    <arg name="hardware_interface" default="PositionJointInterface"/>
+    <arg name="robot_name" default="iiwa" />
+    <arg name="model"      default="iiwa14"/>
+    <arg name="tool_l"     default="0.28"/>
+
+  <group ns="$(arg namespace)">
+    <group if="$(arg use_ned_frame)">
+      <param name="robot_description"
+             command="$(find xacro)/xacro '$(find rexrov2_iiwa14)/robots/rexrov2_$(arg mode)_merged.xacro' --inorder
+                      use_simplified_mesh:=$(arg use_simplified_mesh)
+                      debug:=$(arg debug)
+                      namespace:=$(arg namespace)
+                      inertial_reference_frame:=world_ned
+                      tool_l:=$(arg tool_l)" />
+    </group>
+
+    <group unless="$(arg use_ned_frame)">
+      <param name="robot_description"
+             command="$(find xacro)/xacro '$(find rexrov2_iiwa14)/robots/rexrov2_$(arg mode)_merged.xacro' --inorder
+             	      use_simplified_mesh:=$(arg use_simplified_mesh)
+                      debug:=$(arg debug)
+                      namespace:=$(arg namespace)
+                      inertial_reference_frame:=world
+                      tool_l:=$(arg tool_l)" />
+    </group>
+
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+    <group if="$(arg use_geodetic)">
+      <node name="urdf_spawner" pkg="uuv_descriptions" type="spawn_model" respawn="false" output="screen"
+            args="-urdf -latitude $(arg latitude) -longitude $(arg longitude) -depth $(arg depth) -latitude_ref $(arg latitude_ref) -longitude_ref $(arg longitude_ref) -altitude_ref $(arg altitude_ref) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg namespace) -param /$(arg namespace)/robot_description"/>
+    </group>
+
+
+    <group unless="$(arg use_geodetic)">
+      <node name="urdf_spawner" pkg="uuv_descriptions" type="spawn_model" respawn="false" output="screen"
+            args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg namespace) -param /$(arg namespace)/robot_description"/>
+    </group>
+    
+    <!-- A joint state publisher plugin already is started with the model, no need to use the default joint state publisher -->
+
+    <!-- Publish robot model for ROS -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
+      <param name="robot_description" value="/$(arg namespace)/robot_description" />
+      <param name="publish_frequency" value="5" />
+    </node>
+  </group>
+
+  <include file="$(find uuv_assistants)/launch/message_to_tf.launch">
+    <arg name="namespace" value="$(arg namespace)"/>
+    <arg name="world_frame" value="world"/>
+    <arg name="child_frame_id" value="/$(arg namespace)/base_link"/>
+  </include>
+
+    <group if="$(arg iiwa)">
+       <!-- Load the URDF with the given hardware interface into the ROS Parameter Server -->
+       <include file="$(find iiwa_description)/launch/$(arg model)_upload.launch">
+         	<arg name="hardware_interface" value="$(arg hardware_interface)"/>
+        	<arg name="robot_name" value="$(arg robot_name)" />
+<!--		added by KC-->
+<!--		<arg name="tool_l"     value="$(arg tool_l)"/>-->
+       </include>
+      
+       <include file="$(find rexrov2_iiwa14)/launch/iiwa_control_merged.launch">
+                <arg name="hardware_interface" value="$(arg hardware_interface)" />
+                <arg name="controllers" value="joint_state_controller $(arg hardware_interface)_trajectory_controller" />
+                <arg name="robot_name" value="$(arg robot_name)" />
+                <arg name="model" value="$(arg model)" />
+<!--		added by KC-->
+<!--		<arg name="tool_l"     value="$(arg tool_l)"/>-->
+
+       </include>       
+    </group>
+
+
+
+</launch>
