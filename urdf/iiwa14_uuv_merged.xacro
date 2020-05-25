@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find iiwa_description)/urdf/materials.xacro"/>
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
-  <xacro:include filename="$(find iiwa_description)/urdf/Xiiwa.gazebo.xacro" />
+  <xacro:include filename="$(find rexrov2_iiwa14)/urdf/Xiiwa.gazebo.xacro" />
   <!-- Import Transmissions -->
   <xacro:include filename="$(find iiwa_description)/urdf/iiwa.transmission.xacro" />
   <!-- Include Utilities -->

@@ -30,7 +30,7 @@
   <group ns="$(arg namespace)">
     <group if="$(arg use_ned_frame)">
       <param name="robot_description"
-             command="$(find xacro)/xacro '$(find rexrov2_description)/robots/rexrov2_$(arg mode)_merged.xacro' --inorder
+             command="$(find xacro)/xacro '$(find rexrov2_iiwa14)/robots/rexrov2_$(arg mode)_merged.xacro' --inorder
                       use_simplified_mesh:=$(arg use_simplified_mesh)
                       debug:=$(arg debug)
                       namespace:=$(arg namespace)
@@ -40,7 +40,7 @@
 
     <group unless="$(arg use_ned_frame)">
       <param name="robot_description"
-             command="$(find xacro)/xacro '$(find rexrov2_description)/robots/rexrov2_$(arg mode)_merged.xacro' --inorder
+             command="$(find xacro)/xacro '$(find rexrov2_iiwa14)/robots/rexrov2_$(arg mode)_merged.xacro' --inorder
              	      use_simplified_mesh:=$(arg use_simplified_mesh)
                       debug:=$(arg debug)
                       namespace:=$(arg namespace)
@@ -84,7 +84,7 @@
 <!--		<arg name="tool_l"     value="$(arg tool_l)"/>-->
        </include>
       
-       <include file="$(find iiwa_control)/launch/iiwa_control_merged.launch">
+       <include file="$(find rexrov2_iiwa14)/launch/iiwa_control_merged.launch">
                 <arg name="hardware_interface" value="$(arg hardware_interface)" />
                 <arg name="controllers" value="joint_state_controller $(arg hardware_interface)_trajectory_controller" />
                 <arg name="robot_name" value="$(arg robot_name)" />

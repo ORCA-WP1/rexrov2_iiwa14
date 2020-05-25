@@ -25,7 +25,7 @@
   <!-- Include the ROV macro file -->
   <xacro:include filename="$(find rexrov2_description)/urdf/rexrov2_base.xacro"/>
   <xacro:include filename="$(find rexrov2_description)/urdf/rexrov2.gazebo.xacro"/>
-  <xacro:include filename="$(find iiwa_description)/urdf/iiwa14_uuv_merged.xacro" /> 
+  <xacro:include filename="$(find rexrov2_iiwa14)/urdf/iiwa14_uuv_merged.xacro" /> 
 
   <!-- Create the ROV -->
   <xacro:rexrov2_base

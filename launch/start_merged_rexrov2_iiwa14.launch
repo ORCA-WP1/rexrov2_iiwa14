@@ -19,7 +19,7 @@
       <arg name="timeout" value="5"/>
   </include>
 
-    <include file="$(find rexrov2_description)/launch/upload_merged_rexrov2_iiwa14.launch">  
+    <include file="$(find rexrov2_iiwa14)/launch/upload_merged_rexrov2_iiwa14.launch">  
         <arg name="x" value="$(arg x)"/>
         <arg name="y" value="$(arg y)"/>
         <arg name="z" value="$(arg z)"/>
