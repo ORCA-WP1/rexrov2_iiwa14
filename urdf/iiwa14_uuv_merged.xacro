@@ -331,9 +331,7 @@
     </link>
     
     <joint name="${robot_name}_joint_ee" type="fixed">
-    <!-- <joint name="$force_torque_sensor_mount" type="fixed"> -->
       <parent link="${robot_name}_link_7"/>
-      <!-- <child link="${robot_name}_link_ee"/>-->
       <child link="$force_torque_sensor"/>
       <origin xyz="0 0 0.045" rpy="0 0 0"/>
     </joint>
@@ -349,11 +347,8 @@
 
     <!-- if ft_joint_ee is fixed, no rostopic: /netft_gazebo_data. if it is revolute, joint size become 8 -->
     <joint name="ft_joint_ee" type="fixed">
-    <!-- <joint name="contact_point_joint" type="fixed"> -->
-      <!-- <parent link="${robot_name}_link_ee"/> -->
       <parent link="$force_torque_sensor"/>
       <child link="ft_sensor_link"/>
-      <!-- <child link="contact_point"/> -->
       <origin xyz="0 0 0.0" rpy="0 0 0"/> 
       <!--<origin xyz="0 0 ${tool_l/4}" rpy="0 0 0"/> -->
       <limit velocity="6.5" effort="1000" lower="0" upper="0" />
@@ -361,10 +356,10 @@
 
     <!-- Include tool to the EE  name="visual_cylinder" -->
     <link name="ft_sensor_link">
-    <!-- <link name="contact_point"> -->
       <inertial>
         <origin xyz="0 0 0.02" rpy="0 0 0"/>
-        <mass value="0.01"/>
+<!--        <mass value="0.01"/>-->
+        <mass value="0.001"/>
         <inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
       </inertial>  
        <visual >
@@ -376,7 +371,8 @@
        <collision>
          <origin xyz="0 0 ${tool_l/4} " rpy="0 0 0"/>
            <geometry>
-             <cylinder radius="0.01" length="${tool_l/2}"/>
+<!--             <cylinder radius="0.01" length="${tool_l/2}"/>-->
+             <cylinder radius="0.001" length="${tool_l/2}"/>
            </geometry>
            <material name="Grey"/>
        </collision>    
@@ -394,14 +390,17 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.0375"/>
+<!--        <sphere radius="0.0375"/> -->
+        <sphere radius="0.01"/> 
       </geometry>
       <material name="Grey"/>
     </visual>
     <inertial> <!-- Source: https://bit.ly/387NqqL -->
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="0.001"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+<!--      <mass value="0.001"/>-->
+      <mass value="0.000001"/>
+<!--      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>-->
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
     </inertial>
   </link>
 
