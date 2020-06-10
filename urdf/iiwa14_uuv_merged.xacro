@@ -359,8 +359,8 @@
       <inertial>
         <origin xyz="0 0 0.02" rpy="0 0 0"/>
 <!--        <mass value="0.01"/>-->
-        <mass value="0.001"/>
-        <inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        <mass value="1.001"/>
+        <inertia ixx="1.001"  ixy="0"  ixz="0" iyy="1.001" iyz="0" izz="1.001" />
       </inertial>  
        <visual >
          <origin xyz="0.0 0 ${tool_l/4} " rpy="0 0 0"/>
@@ -391,7 +391,7 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
 <!--        <sphere radius="0.0375"/> -->
-        <sphere radius="0.01"/> 
+        <sphere radius="0.02"/> 
       </geometry>
       <material name="Grey"/>
     </visual>
