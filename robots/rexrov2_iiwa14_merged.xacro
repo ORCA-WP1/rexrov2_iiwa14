@@ -21,11 +21,29 @@
   <xacro:arg name="namespace" default="rexrov2"/>
   <xacro:arg name="use_simplified_mesh" default="false"/>
   <xacro:arg name="inertial_reference_frame" default="world"/>
-  <xacro:arg name="tool_l" default="0.28"/> 
+  <xacro:arg name="tool_l" default="0.28"/>
   <!-- Include the ROV macro file -->
   <xacro:include filename="$(find rexrov2_description)/urdf/rexrov2_base.xacro"/>
   <xacro:include filename="$(find rexrov2_description)/urdf/rexrov2.gazebo.xacro"/>
-  <xacro:include filename="$(find rexrov2_iiwa14)/urdf/iiwa14_uuv_merged.xacro" /> 
+  <xacro:include filename="$(find rexrov2_iiwa14)/urdf/iiwa14_uuv_merged.xacro" />
+
+  <xacro:forward_looking_sonar
+      namespace="$(arg namespace)"
+      suffix="down"
+      parent_link="$(arg namespace)/base_link"
+      topic="forward_sonar"
+      mass="0.015"
+      update_rate="40"
+      samples="100"
+        fov="1.54719755"
+        width="768"
+        height="492">
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+      <!--origin xyz="0.83 0 -0.22" rpy="0 ${0.2*pi} 0" /-->
+      <origin xyz="1.15 0 0.4" rpy="0 0.3 0"/>
+      <visual>
+      </visual>
+  </xacro:forward_looking_sonar>
 
   <!-- Create the ROV -->
   <xacro:rexrov2_base
@@ -65,12 +83,12 @@
   <xacro:default_joint_state_publisher namespace="$(arg namespace)" update_rate="50"/>
 
   <!-- camera attached to rexrov2/base_link-->
- <gazebo reference="rexrov2/base_link"> 
+ <gazebo reference="rexrov2/base_link">
     <sensor type="camera" name="camera_out">
       <update_rate>30.0</update_rate>
       <camera name="head">
 	<pose>4 -4 2 0.0 0.275643 2.356190</pose>
-	 <view_controller>orbit</view_controller> 
+	 <view_controller>orbit</view_controller>
       <!--   <horizontal_fov>1.3962634</horizontal_fov>  -->
         <image>
           <width>800</width>
