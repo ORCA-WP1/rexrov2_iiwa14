@@ -414,7 +414,7 @@
 <!--This solves the problem: ft_joint_ee is fixed OR revolute-->
 <gazebo reference="ft_joint_ee">
   <disableFixedJointLumping>true</disableFixedJointLumping> 
-  <preserveFixedJoint>true</preserveFixedJoint>
+  <!-- <preserveFixedJoint>true</preserveFixedJoint> -->
 </gazebo>
 
 
