@@ -75,6 +75,7 @@
     <arg name="child_frame_id" value="/$(arg namespace)/base_link"/>
   </include>
 
+
     <group if="$(arg iiwa)">
        <!-- Load the URDF with the given hardware interface into the ROS Parameter Server -->
        <include file="$(find iiwa_description)/launch/$(arg model)_upload.launch">
@@ -89,6 +90,7 @@
                 <arg name="controllers" value="joint_state_controller $(arg hardware_interface)_trajectory_controller" />
                 <arg name="robot_name" value="$(arg robot_name)" />
                 <arg name="model" value="$(arg model)" />
+                <arg name="namespace" value="$(arg namespace)"/>
 <!--		added by KC-->
 <!--		<arg name="tool_l"     value="$(arg tool_l)"/>-->
 
