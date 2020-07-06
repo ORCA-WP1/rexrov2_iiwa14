@@ -23,7 +23,7 @@
   <arg name="use_simplified_mesh" default="false" doc="Use simplified geometries instead of the mesh"/>
   <arg name="use_ned_frame" default="false" doc="Set the inertial reference to NED (North-East-Down) convention instead of Gazebo's default ENU (East-North-Up)"/>
     <arg name="hardware_interface" default="PositionJointInterface"/>
-    <arg name="robot_name" default="iiwa" />
+    <arg name="robot_name" default="$(arg namespace)_iiwa" />
     <arg name="model"      default="iiwa14"/>
     <arg name="tool_l"     default="0.28"/>
 
@@ -90,7 +90,6 @@
                 <arg name="controllers" value="joint_state_controller $(arg hardware_interface)_trajectory_controller" />
                 <arg name="robot_name" value="$(arg robot_name)" />
                 <arg name="model" value="$(arg model)" />
-                <arg name="namespace" value="$(arg namespace)"/>
 <!--		added by KC-->
 <!--		<arg name="tool_l"     value="$(arg tool_l)"/>-->
 

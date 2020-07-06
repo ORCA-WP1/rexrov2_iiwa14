@@ -10,11 +10,10 @@
     <arg name="model" default="iiwa14" />
     <arg name="joint_state_frequency" default="1000" />
     <arg name="robot_state_frequency" default="1000" />
-    <arg name="namespace" default="rexrov2" doc="Namespace to spawn the vehicle"/>
 <!--both frequency were 100-->
     
     <!-- Loads joint controller configurations from YAML file to parameter server -->
-    <rosparam ns="$(arg namespace)" file="$(find rexrov2_iiwa14)/config/iiwa_control_merged.yaml" command="load"/>
+    <rosparam ns="$(arg robot_name)" file="$(find rexrov2_iiwa14)/config/iiwa_control_merged.yaml" command="load"/>
     <!--
     <param name="/$(arg robot_name)/joint_state_controller/publish_rate" value="$(arg joint_state_frequency)" /> 
     -->
@@ -27,8 +26,8 @@
   <!-- ** load and  start PositionJointInterface_trajectory_controller 
         * the controller can load/start yet doesnt move when we publish the controller topic
         *  --> 
-  <node ns="$(arg namespace)" name="PositionJointInterface_trajectory_controller_loader" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"  args="load PositionJointInterface_trajectory_controller"/>
-  <node ns="$(arg namespace)" name="PositionJointInterface_trajectory_controller_starter" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"  args="start PositionJointInterface_trajectory_controller"/>
+  <node ns="$(arg robot_name)" name="PositionJointInterface_trajectory_controller_loader" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"  args="load PositionJointInterface_trajectory_controller"/>
+  <node ns="$(arg robot_name)" name="PositionJointInterface_trajectory_controller_starter" pkg="controller_manager" type="controller_manager" respawn="false" output="screen"  args="start PositionJointInterface_trajectory_controller"/>
 
 
     <!-- Converts joint states to TF transforms for rviz, etc 
