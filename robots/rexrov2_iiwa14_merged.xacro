@@ -45,6 +45,10 @@
       </visual>
   </xacro:forward_looking_sonar>
 
+  <xacro:forward_multibeam_sonar_m450_130 namespace="$(arg namespace)" parent_link="$(arg namespace)/base_link">
+    <origin xyz="1.35 0 0.6" rpy="0 0 0"/>
+  </xacro:forward_multibeam_sonar_m450_130>
+
   <!-- Create the ROV -->
   <xacro:rexrov2_base
     namespace="$(arg namespace)"
@@ -76,6 +80,8 @@
       <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
         <robotNamespace>/$(arg namespace)</robotNamespace>
         <robotParam>/$(arg namespace)/robot_description</robotParam>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>true</legacyModeNS>
       </plugin>
    </gazebo>
 
