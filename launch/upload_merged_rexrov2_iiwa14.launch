@@ -51,13 +51,13 @@
     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
     <group if="$(arg use_geodetic)">
       <node name="urdf_spawner" pkg="uuv_descriptions" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -latitude $(arg latitude) -longitude $(arg longitude) -depth $(arg depth) -latitude_ref $(arg latitude_ref) -longitude_ref $(arg longitude_ref) -altitude_ref $(arg altitude_ref) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg namespace) -param /$(arg namespace)/robot_description"/>
+            args="-urdf -latitude $(arg latitude) -longitude $(arg longitude) -depth $(arg depth) -latitude_ref $(arg latitude_ref) -longitude_ref $(arg longitude_ref) -altitude_ref $(arg altitude_ref) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg namespace) -param /$(arg namespace)/robot_description -J iiwa_joint_4 1.57"/> <!-- ...robot_description -J iiwa_joint_4 1.57" add to set kuka initial -->
     </group>
 
 
     <group unless="$(arg use_geodetic)">
       <node name="urdf_spawner" pkg="uuv_descriptions" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg namespace) -param /$(arg namespace)/robot_description"/>
+            args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -model $(arg namespace) -param /$(arg namespace)/robot_description -J iiwa_joint_4 1.57"/> <!-- ...robot_description -J iiwa_joint_4 1.57" add to set kuka initial -->
     </group>
     
     <!-- A joint state publisher plugin already is started with the model, no need to use the default joint state publisher -->

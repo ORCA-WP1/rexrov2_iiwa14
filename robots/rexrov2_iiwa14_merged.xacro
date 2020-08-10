@@ -68,6 +68,7 @@
 <!--    <origin xyz="1.22 0 -0.75" rpy="0 0 3.1416"/>-->
 <!--  </xacro:iiwa14>-->
 <xacro:iiwa14   parent="$(arg namespace)/base_link" hardware_interface="PositionJointInterface" robot_name="iiwa" tool_l="$(arg tool_l)">
+    <!-- <origin xyz="1.22 0 -0.75" rpy="0 0 3.1416"/> -->
     <origin xyz="1.22 0 -0.75" rpy="0 0 3.1416"/>
   </xacro:iiwa14>
 
